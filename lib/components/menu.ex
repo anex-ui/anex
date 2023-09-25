@@ -1,4 +1,4 @@
-defmodule HeadlessBird.Components.Menu do
+defmodule Headlessbird.Components.Menu do
   @moduledoc false
 
   use Phoenix.Component
