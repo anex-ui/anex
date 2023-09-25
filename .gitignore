@@ -24,4 +24,6 @@ headlessbird-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
-/hooks/node_modules/
+
+/hooks/node_modules
+/hooks/dist
