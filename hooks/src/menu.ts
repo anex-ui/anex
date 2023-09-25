@@ -23,9 +23,11 @@ const Menu = {
     this.positioner = this.el.querySelector("[data-menu-part='positioner']");
     this.content = this.el.querySelector("[data-menu-part='content']");
     this.items = this.el.querySelectorAll("[data-menu-part='item']");
+
     if (this.missingElement()) {
       return;
     }
+    this.content!.removeAttribute("phx-cloak");
 
     const optionsString = this.el.dataset.menuOptions ?? "{}";
     this.options = JSON.parse(optionsString) as MenuOptions;

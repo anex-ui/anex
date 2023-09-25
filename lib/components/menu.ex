@@ -16,7 +16,7 @@ defmodule Headlessbird.Components.Menu do
     render_as_tag_or_component(assigns, %{
       "id" => TypeID.new("menu"),
       "phx-hook" => "Menu",
-      "data-menu-options" => assigns.options
+      "data-menu-options" => assigns.options,
     })
   end
 
@@ -35,7 +35,7 @@ defmodule Headlessbird.Components.Menu do
   def menu_content(assigns) do
     ~H"""
     <div data-menu-part="positioner">
-      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content"}) %>
+      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content", "phx-cloak" => ""}) %>
     </div>
     """
   end
