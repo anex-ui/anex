@@ -1,0 +1,26 @@
+{
+  "name": "headlessbird",
+  "main": "hooks/dist/index.js",
+  "types": "hooks/dist/index.d.ts",
+  "scripts": {
+    "format": "prettier -w .",
+    "check-formatted": "prettier -c .",
+    "lint": "eslint src",
+    "fix": "eslint src --fix",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@zag-js/menu": "0.21.0",
+    "hyphenate-style-name": "1.0.4"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "20.1.2",
+    "@types/node": "20.6.4",
+    "@types/phoenix_live_view": "0.18.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "3.0.3"
+  }
+}
