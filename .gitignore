@@ -27,3 +27,4 @@ headlessbird-*.tar
 
 /hooks/node_modules
 /hooks/dist
+/hooks/*.tsbuildinfo

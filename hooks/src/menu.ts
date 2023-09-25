@@ -19,7 +19,6 @@ export interface MenuViewHook extends ViewHook {
 
 const Menu = {
   mounted() {
-    console.log("happy hi from menu")
     this.trigger = this.el.querySelector("[data-menu-part='trigger']");
     this.positioner = this.el.querySelector("[data-menu-part='positioner']");
     this.content = this.el.querySelector("[data-menu-part='content']");
