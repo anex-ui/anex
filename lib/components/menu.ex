@@ -35,7 +35,7 @@ defmodule Headlessbird.Components.Menu do
   def menu_content(assigns) do
     ~H"""
     <div data-menu-part="positioner">
-      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content", "phx-cloak" => ""}) %>
+      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content", "style" => "display: none;"}) %>
     </div>
     """
   end
