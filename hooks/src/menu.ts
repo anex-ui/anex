@@ -27,7 +27,7 @@ const Menu = {
     if (this.missingElement()) {
       return;
     }
-    this.content!.removeAttribute("phx-cloak");
+    this.content!.style.display = "";
 
     const optionsString = this.el.dataset.menuOptions ?? "{}";
     this.options = JSON.parse(optionsString) as MenuOptions;
