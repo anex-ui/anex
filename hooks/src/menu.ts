@@ -13,7 +13,7 @@ export interface MenuViewHook extends ViewHook {
   items?: NodeListOf<HTMLElement>;
   options: MenuOptions;
   updateMenu(api: menu.Api): void;
-  cleanup?: () => void;
+  teardown?: () => void;
   missingElement: () => boolean;
 }
 
@@ -41,14 +41,14 @@ const Menu = {
     service.start().send("SETUP");
   },
   beforeDestroy() {
-    if (this.cleanup) this.cleanup();
+    if (this.teardown) this.teardown();
   },
   updateMenu(api) {
     if (this.missingElement()) {
       return;
     }
 
-    if (this.cleanup) this.cleanup();
+    if (this.teardown) this.teardown();
     const teardownFns = [
       assignAttributes(this.trigger!, api.triggerProps),
       assignAttributes(this.positioner!, api.positionerProps),
@@ -67,7 +67,7 @@ const Menu = {
       teardownFns.push(assignAttributes(item, api.getItemProps({ id })));
     });
 
-    this.cleanup = () => {
+    this.teardown = () => {
       teardownFns.forEach((fn) => fn());
     };
   },

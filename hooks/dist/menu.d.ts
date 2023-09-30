@@ -10,7 +10,7 @@ export interface MenuViewHook extends ViewHook {
     items?: NodeListOf<HTMLElement>;
     options: MenuOptions;
     updateMenu(api: menu.Api): void;
-    cleanup?: () => void;
+    teardown?: () => void;
     missingElement: () => boolean;
 }
 declare const Menu: MenuViewHook;

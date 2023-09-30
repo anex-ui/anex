@@ -23,27 +23,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var menu = __importStar(require("@zag-js/menu"));
+var dialog = __importStar(require("@zag-js/dialog"));
 var zag_1 = require("./utilities/zag");
-var Menu = {
+var Dialog = {
     mounted: function () {
         var _this = this;
         var _a;
-        this.trigger = this.el.querySelector("[data-menu-part='trigger']");
-        this.positioner = this.el.querySelector("[data-menu-part='positioner']");
-        this.content = this.el.querySelector("[data-menu-part='content']");
-        this.items = this.el.querySelectorAll("[data-menu-part='item']");
+        this.trigger = this.el.querySelector("[data-dialog-part='trigger']");
+        this.backdrop = this.el.querySelector("[data-dialog-part='backdrop']");
+        this.container = this.el.querySelector("[data-dialog-part='container']");
+        this.content = this.el.querySelector("[data-dialog-part='content']");
         if (this.missingElement()) {
             return;
         }
-        this.content.style.display = "";
-        var optionsString = (_a = this.el.dataset.menuOptions) !== null && _a !== void 0 ? _a : "{}";
+        this.backdrop.style.display = "";
+        this.container.style.display = "";
+        var optionsString = (_a = this.el.dataset.dialogOptions) !== null && _a !== void 0 ? _a : "{}";
         this.options = JSON.parse(optionsString);
         var id = this.el.id;
-        var service = menu.machine({ id: id });
+        var service = dialog.machine({ id: id });
         service.subscribe(function (state) {
-            var api = menu.connect(state, service.send, zag_1.normalizeProps);
-            _this.updateMenu(api);
+            var api = dialog.connect(state, service.send, zag_1.normalizeProps);
+            _this.updateDialog(api);
         });
         service.start().send("SETUP");
     },
@@ -51,8 +52,7 @@ var Menu = {
         if (this.teardown)
             this.teardown();
     },
-    updateMenu: function (api) {
-        var _this = this;
+    updateDialog: function (api) {
         if (this.missingElement()) {
             return;
         }
@@ -60,29 +60,20 @@ var Menu = {
             this.teardown();
         var teardownFns = [
             (0, zag_1.assignAttributes)(this.trigger, api.triggerProps),
-            (0, zag_1.assignAttributes)(this.positioner, api.positionerProps),
+            (0, zag_1.assignAttributes)(this.backdrop, api.backdropProps),
+            (0, zag_1.assignAttributes)(this.container, api.containerProps),
             (0, zag_1.assignAttributes)(this.content, api.contentProps),
         ];
-        this.items.forEach(function (item) {
-            var id = item.id;
-            if (id === api.highlightedId) {
-                _this.options.activeItemClass && item.classList.add(_this.options.activeItemClass);
-            }
-            else {
-                _this.options.activeItemClass && item.classList.remove(_this.options.activeItemClass);
-            }
-            teardownFns.push((0, zag_1.assignAttributes)(item, api.getItemProps({ id: id })));
-        });
         this.teardown = function () {
             teardownFns.forEach(function (fn) { return fn(); });
         };
     },
     missingElement: function () {
-        var missingElement = !this.trigger || !this.positioner || !this.content || !this.items;
+        var missingElement = !this.trigger || !this.backdrop || !this.container || !this.content;
         if (missingElement) {
-            console.error("Menu is missing a required element");
+            console.error("Dialog is missing a required element");
         }
         return missingElement;
     },
 };
-exports.default = Menu;
+exports.default = Dialog;
