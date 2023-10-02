@@ -17,7 +17,7 @@ defmodule Anex.Storybook.MenuStory do
               Delete Organization
             </.menu_item>
             <.menu_item class="block w-full px-4 py-2 text-sm text-gray-700">
-          Delete Account
+              Delete Account
             </.menu_item>
           </.menu_content>
           """
