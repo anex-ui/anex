@@ -20,14 +20,14 @@ config :esbuild,
 
 config :tailwind,
   version: "3.3.2",
-    storybook: [
-        args: ~w(
+  storybook: [
+    args: ~w(
           --config=tailwind.config.js
           --input=css/storybook.css
           --output=../priv/static/assets/storybook.css
         ),
-        cd: Path.expand("../assets", __DIR__)
-      ]
+    cd: Path.expand("../assets", __DIR__)
+  ]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

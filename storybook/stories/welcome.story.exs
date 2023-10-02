@@ -1,10 +1,9 @@
-defmodule Storybook.MyPage do                                                                                                  
-  use PhoenixStorybook.Story, :page  
-
+defmodule Storybook.MyPage do
+  use PhoenixStorybook.Story, :page
 
   def render(assigns) do
-   ~H"""
-    Hello :) 
-   """ 
+    ~H"""
+     Hello :) 
+    """
   end
 end

@@ -20,7 +20,6 @@ defmodule Storybook.MixProject do
     ]
   end
 
-
   defp deps do
     [
       {:anex, github: "anex-ui/anex", branch: "dialog"},
@@ -31,7 +30,7 @@ defmodule Storybook.MixProject do
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:plug_cowboy, "~> 2.5"},
-      {:jason, "1.4.1"},
+      {:jason, "1.4.1"}
     ]
   end
 
