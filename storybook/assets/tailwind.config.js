@@ -8,7 +8,7 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../stories/**.ex"
+    "../stories/**.exs"
   ],
   theme: {
     extend: {
@@ -16,8 +16,5 @@ module.exports = {
         brand: "#FD4F00",
       }
     },
-  },
-  plugins: [
-    require("@tailwindcss/forms"),
-  ]
+  }
 }
