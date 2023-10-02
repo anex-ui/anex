@@ -1,0 +1,6 @@
+{
+  "name": "assets",
+  "dependencies": {
+    "anex": "git+ssh://git@github.com/anex-ui/anex.git"
+  }
+}
