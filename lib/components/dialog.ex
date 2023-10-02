@@ -11,8 +11,8 @@ defmodule Anex.Components.Dialog do
 
   def dialog(assigns) do
     render_as_tag_or_component(assigns, %{
-      "id" => TypeID.new("dialog"),
-      "phx-hook" => "Dialog",
+      "id" => to_string(TypeID.new("dialog")),
+      "phx-hook" => "Dialog"
     })
   end
 

@@ -15,7 +15,7 @@ defmodule Anex.Components.Menu do
     assigns = assign(assigns, options: options)
 
     render_as_tag_or_component(assigns, %{
-      "id" => TypeID.new("menu"),
+      "id" => to_string(TypeID.new("menu")),
       "phx-hook" => "Menu",
       "data-menu-options" => assigns.options,
     })
@@ -46,7 +46,7 @@ defmodule Anex.Components.Menu do
   slot :inner_block
 
   def menu_item(assigns) do
-    render_as_tag_or_component(assigns, %{"id" => TypeID.new("menu-item"), "data-menu-part" => "item"})
+    render_as_tag_or_component(assigns, %{"id" => to_string(TypeID.new("menu-item")), "data-menu-part" => "item"})
   end
 
 end
