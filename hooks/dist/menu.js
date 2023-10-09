@@ -42,10 +42,15 @@ var Menu = {
         var id = this.el.id;
         var service = menu.machine({ id: id });
         service.subscribe(function (state) {
-            var api = menu.connect(state, service.send, zag_1.normalizeProps);
-            _this.updateMenu(api);
+            _this.api = menu.connect(state, service.send, zag_1.normalizeProps);
+            _this.updateMenu(_this.api);
         });
         service.start().send("SETUP");
+    },
+    updated: function () {
+        this.items = this.el.querySelectorAll("[data-menu-part='item']");
+        // TODO: this no work
+        this.updateMenu(this.api);
     },
     beforeDestroy: function () {
         if (this.teardown)

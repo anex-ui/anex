@@ -12,6 +12,7 @@ export interface MenuViewHook extends ViewHook {
   content?: HTMLElement | null;
   items?: NodeListOf<HTMLElement>;
   options: MenuOptions;
+  api: menu.Api;
   updateMenu(api: menu.Api): void;
   teardown?: () => void;
   missingElement: () => boolean;
@@ -35,10 +36,15 @@ const Menu = {
     const id = this.el.id;
     const service = menu.machine({ id });
     service.subscribe((state) => {
-      const api = menu.connect(state, service.send, normalizeProps);
-      this.updateMenu(api);
+      this.api = menu.connect(state, service.send, normalizeProps);
+      this.updateMenu(this.api);
     });
     service.start().send("SETUP");
+  },
+  updated() {
+    this.items = this.el.querySelectorAll("[data-menu-part='item']");
+    // TODO: this no work
+    this.updateMenu(this.api);
   },
   beforeDestroy() {
     if (this.teardown) this.teardown();

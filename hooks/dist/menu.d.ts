@@ -9,6 +9,7 @@ export interface MenuViewHook extends ViewHook {
     content?: HTMLElement | null;
     items?: NodeListOf<HTMLElement>;
     options: MenuOptions;
+    api: menu.Api;
     updateMenu(api: menu.Api): void;
     teardown?: () => void;
     missingElement: () => boolean;
