@@ -7,6 +7,7 @@ defmodule Anex.Components.Menu do
   attr :active_item_class, :string, default: nil, doc: "Class to apply to the currently focused item"
   attr :class, :string, default: nil, doc: "Extra classes"
   attr :as, :any, default: "div"
+  attr :id, :string, default: to_string(TypeID.new("menu"))
   attr :rest, :global
   slot :inner_block
 
@@ -15,7 +16,7 @@ defmodule Anex.Components.Menu do
     assigns = assign(assigns, options: options)
 
     render_as_tag_or_component(assigns, %{
-      "id" => to_string(TypeID.new("menu")),
+      "id" => assigns.id,
       "phx-hook" => "Menu",
       "data-menu-options" => assigns.options,
     })
@@ -43,10 +44,10 @@ defmodule Anex.Components.Menu do
 
   attr :as, :any, default: "button"
   attr :rest, :global, include: ["label"]
+  attr :id, :string, default: to_string(TypeID.new("menu-item"))
   slot :inner_block
 
   def menu_item(assigns) do
-    render_as_tag_or_component(assigns, %{"id" => to_string(TypeID.new("menu-item")), "data-menu-part" => "item"})
+    render_as_tag_or_component(assigns, %{"id" => assigns.id, "data-menu-part" => "item"})
   end
-
 end
