@@ -4,15 +4,15 @@ defmodule Anex.Components.Menu do
   use Phoenix.Component
   import Anex
 
-  attr :active_item_class, :string, default: nil, doc: "Class to apply to the currently focused item"
-  attr :class, :string, default: nil, doc: "Extra classes"
+  attr :id, :string, required: true
   attr :as, :any, default: "div"
-  attr :id, :string, default: to_string(TypeID.new("menu"))
+  attr :"active-item-class", :string, default: nil, doc: "Class to apply to the currently focused item"
+  attr :class, :string, default: nil, doc: "Extra classes"
   attr :rest, :global
   slot :inner_block
 
   def menu(assigns) do
-    options = Jason.encode!(%{activeItemClass: assigns.active_item_class})
+    options = Jason.encode!(%{activeItemClass: Map.get(assigns, :"active-item-class")})
     assigns = assign(assigns, options: options)
 
     render_as_tag_or_component(assigns, %{
@@ -37,14 +37,14 @@ defmodule Anex.Components.Menu do
   def menu_content(assigns) do
     ~H"""
     <div data-menu-part="positioner">
-      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content", "style" => "display: none;"}) %>
+      <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content"}) %>
     </div>
     """
   end
 
+  attr :id, :string, required: true
   attr :as, :any, default: "button"
   attr :rest, :global, include: ["label"]
-  attr :id, :string, default: to_string(TypeID.new("menu-item"))
   slot :inner_block
 
   def menu_item(assigns) do
