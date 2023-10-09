@@ -12,13 +12,27 @@ export interface MenuViewHook extends ViewHook {
   content?: HTMLElement | null;
   items?: NodeListOf<HTMLElement>;
   options: MenuOptions;
-  updateMenu(api: menu.Api): void;
+  api: menu.Api;
+  initialise: () => void;
   teardown?: () => void;
   missingElement: () => boolean;
+  updateMenu(api: menu.Api): void;
 }
 
 const Menu = {
   mounted() {
+    this.initialise();
+  },
+  updated() {
+    this.initialise();
+  },
+  beforeUpdate() {
+    if (this.teardown) this.teardown();
+  },
+  beforeDestroy() {
+    if (this.teardown) this.teardown();
+  },
+  initialise() {
     this.trigger = this.el.querySelector("[data-menu-part='trigger']");
     this.positioner = this.el.querySelector("[data-menu-part='positioner']");
     this.content = this.el.querySelector("[data-menu-part='content']");
@@ -27,7 +41,7 @@ const Menu = {
     if (this.missingElement()) {
       return;
     }
-    this.content!.style.display = "";
+    this.positioner!.style.display = "";
 
     const optionsString = this.el.dataset.menuOptions ?? "{}";
     this.options = JSON.parse(optionsString) as MenuOptions;
@@ -35,13 +49,18 @@ const Menu = {
     const id = this.el.id;
     const service = menu.machine({ id });
     service.subscribe((state) => {
-      const api = menu.connect(state, service.send, normalizeProps);
-      this.updateMenu(api);
+      this.api = menu.connect(state, service.send, normalizeProps);
+      this.updateMenu(this.api);
     });
     service.start().send("SETUP");
   },
-  beforeDestroy() {
-    if (this.teardown) this.teardown();
+  missingElement() {
+    const missingElement = !this.trigger || !this.positioner || !this.content || !this.items;
+    if (missingElement) {
+      console.error("Menu is missing a required element");
+    }
+
+    return missingElement;
   },
   updateMenu(api) {
     if (this.missingElement()) {
@@ -70,14 +89,6 @@ const Menu = {
     this.teardown = () => {
       teardownFns.forEach((fn) => fn());
     };
-  },
-  missingElement() {
-    const missingElement = !this.trigger || !this.positioner || !this.content || !this.items;
-    if (missingElement) {
-      console.error("Menu is missing a required element");
-    }
-
-    return missingElement;
   },
 } as MenuViewHook;
 

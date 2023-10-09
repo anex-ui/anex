@@ -7,12 +7,14 @@ defmodule Anex.Components.Menu do
   attr :id, :string, required: true
   attr :as, :any, default: "div"
   attr :"active-item-class", :string, default: nil, doc: "Class to apply to the currently focused item"
+  attr :position, :string, default: nil
   attr :class, :string, default: nil, doc: "Extra classes"
   attr :rest, :global
   slot :inner_block
 
   def menu(assigns) do
-    options = Jason.encode!(%{activeItemClass: Map.get(assigns, :"active-item-class")})
+    options = Jason.encode!(%{activeItemClass: Map.get(assigns, :"active-item-class"), position:
+    Map.get(assigns, :position)})
     assigns = assign(assigns, options: options)
 
     render_as_tag_or_component(assigns, %{
@@ -36,7 +38,7 @@ defmodule Anex.Components.Menu do
 
   def menu_content(assigns) do
     ~H"""
-    <div data-menu-part="positioner">
+    <div data-menu-part="positioner" style="display: none;">
       <%= render_as_tag_or_component(assigns, %{"data-menu-part" => "content"}) %>
     </div>
     """

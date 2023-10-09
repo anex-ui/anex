@@ -27,6 +27,20 @@ var menu = __importStar(require("@zag-js/menu"));
 var zag_1 = require("./utilities/zag");
 var Menu = {
     mounted: function () {
+        this.initialise();
+    },
+    updated: function () {
+        this.initialise();
+    },
+    beforeUpdate: function () {
+        if (this.teardown)
+            this.teardown();
+    },
+    beforeDestroy: function () {
+        if (this.teardown)
+            this.teardown();
+    },
+    initialise: function () {
         var _this = this;
         var _a;
         this.trigger = this.el.querySelector("[data-menu-part='trigger']");
@@ -36,20 +50,23 @@ var Menu = {
         if (this.missingElement()) {
             return;
         }
-        this.content.style.display = "";
+        this.positioner.style.display = "";
         var optionsString = (_a = this.el.dataset.menuOptions) !== null && _a !== void 0 ? _a : "{}";
         this.options = JSON.parse(optionsString);
         var id = this.el.id;
         var service = menu.machine({ id: id });
         service.subscribe(function (state) {
-            var api = menu.connect(state, service.send, zag_1.normalizeProps);
-            _this.updateMenu(api);
+            _this.api = menu.connect(state, service.send, zag_1.normalizeProps);
+            _this.updateMenu(_this.api);
         });
         service.start().send("SETUP");
     },
-    beforeDestroy: function () {
-        if (this.teardown)
-            this.teardown();
+    missingElement: function () {
+        var missingElement = !this.trigger || !this.positioner || !this.content || !this.items;
+        if (missingElement) {
+            console.error("Menu is missing a required element");
+        }
+        return missingElement;
     },
     updateMenu: function (api) {
         var _this = this;
@@ -76,13 +93,6 @@ var Menu = {
         this.teardown = function () {
             teardownFns.forEach(function (fn) { return fn(); });
         };
-    },
-    missingElement: function () {
-        var missingElement = !this.trigger || !this.positioner || !this.content || !this.items;
-        if (missingElement) {
-            console.error("Menu is missing a required element");
-        }
-        return missingElement;
     },
 };
 exports.default = Menu;
