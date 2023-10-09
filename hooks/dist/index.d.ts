@@ -1,2 +1,3 @@
 import Menu from "./menu";
-export { Menu };
+import Dialog from "./dialog";
+export { Dialog, Menu };
